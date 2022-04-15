@@ -40,7 +40,12 @@ let data =
       "id": 4,
       "name": "Mary Poppendieck",
       "number": "39-23-6423122"
-    }
+    },
+    {
+      "id": 5,
+      "name": "CYNBELL",
+      "number": "39-44-5323523"
+    },
   ]
 
 app.get("/api/persons", (req, res) => res.json(data))
