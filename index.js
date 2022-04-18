@@ -34,39 +34,38 @@ const personSchema = new mongoose.Schema({
 
 const Person = new mongoose.model("Person", personSchema)
 
-app.get("/api/persons", (req, res) => {
-  Person.find({}).then(person => {
+app.get("/api/persons", (req, res) =>
+{
+  Person.find({}).then(person =>
+  {
     res.json(person)
   })
+
 })
 
 app.get("/api/persons/:id", (req, res) =>
 {
   const id = Number(req.params.id)
 
-  Person.find({id:id}).then(person => {
+  Person.find({ id: id }).then(person =>
+  {
     res.json(person)
   })
-
-  // const person = data.find(person => person.id === id)
-
-  // if (!person) res.status(404).end()
-
-  // res.json(person)
 })
 
 app.delete("/api/persons/:id", (req, res) =>
 {
   const id = Number(req.params.id)
-  data = data.filter(person => person.id !== id)
+
+  Person.deleteOne({ id: id })
 
   res.status(204).end()
 })
 
-app.get("/info", (req, res) =>
+app.get("/info", async (req, res) =>
 {
   const date = new Date();
-  const peopleAmount = data.length
+  const peopleAmount = await Person.countDocuments({}).exec();
 
   res.send(`Phonebook has info for ${peopleAmount} people <br><br> ${date}`)
 })
@@ -106,7 +105,6 @@ const unknownEndpoint = (req, res) =>
 }
 
 app.use(unknownEndpoint)
-
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => console.log(`Server Running on PORT: ${PORT}`))
