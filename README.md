@@ -1,3 +1,14 @@
 Online App link: 
+https://cyngames-phonebook-fso.herokuapp.com/
 
-https://ancient-river-20924.herokuapp.com/api/persons
+SCHEMA TYPES:
+  String
+  Number
+  Date
+  Buffer
+  Boolean
+  Mixed
+  ObjectId
+  Array
+  Decimal128
+  Map
