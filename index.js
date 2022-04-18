@@ -43,11 +43,16 @@ app.get("/api/persons", (req, res) => {
 app.get("/api/persons/:id", (req, res) =>
 {
   const id = Number(req.params.id)
-  const person = data.find(person => person.id === id)
 
-  if (!person) res.status(404).end()
+  Person.find({id:id}).then(person => {
+    res.json(person)
+  })
 
-  res.json(person)
+  // const person = data.find(person => person.id === id)
+
+  // if (!person) res.status(404).end()
+
+  // res.json(person)
 })
 
 app.delete("/api/persons/:id", (req, res) =>
