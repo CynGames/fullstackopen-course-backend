@@ -70,9 +70,11 @@ app.get("/info", async (req, res) =>
   res.send(`Phonebook has info for ${peopleAmount} people <br><br> ${date}`)
 })
 
-app.post("/api/persons", (req, res) =>
+app.post("/api/persons", async (req, res) =>
 {
-  const id = Math.floor(Math.random() * 1000);
+  const sID = await Person.countDocuments({}).exec();
+  const id = Number(sID) + 1;
+
   const body = req.body
 
   if (!body.name || !body.number)
@@ -82,21 +84,30 @@ app.post("/api/persons", (req, res) =>
     })
   }
 
-  if (data.find(person => person.name === body.name))
-  {
-    return res.status(400).json({
-      error: "Name must be unique"
-    })
-  }
+  // Person.find({ name: name })
 
-  const person = {
+  // if (data.find(person => person.name === body.name))
+  // {
+  //   return res.status(400).json({
+  //     error: "Name must be unique"
+  //   })
+  // }
+
+  const person = new Person({
     name: body.name,
     number: body.number,
     id: id
-  }
+  })
 
-  data = data.concat(person)
-  res.json(person)
+  // data = data.concat(person)
+
+  person.save().then(result =>
+  {
+    console.log("Person saved successfully");
+    mongoose.connection.close()
+  })
+
+  // res.json(person)
 })
 
 const unknownEndpoint = (req, res) =>
