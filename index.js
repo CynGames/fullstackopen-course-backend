@@ -24,7 +24,16 @@ morgan.format("postFormat", ":method :url :status :res[content-length] - :respon
 app.use(morgan("postFormat"))
 
 const url = process.env.MONGODB_URI
+
 mongoose.connect(url)
+  .then(result =>
+  {
+    console.log("Connected to MongoDB");
+  })
+  .catch((err) =>
+  {
+    console.log("Error connecting to MongoDB: ", err.message)
+  })
 
 const personSchema = new mongoose.Schema({
   id: String,
@@ -40,7 +49,6 @@ app.get("/api/persons", (req, res) =>
   {
     res.json(person)
   })
-
 })
 
 app.get("/api/persons/:id", (req, res) =>
@@ -84,30 +92,18 @@ app.post("/api/persons", async (req, res) =>
     })
   }
 
-  // Person.find({ name: name })
-
-  // if (data.find(person => person.name === body.name))
-  // {
-  //   return res.status(400).json({
-  //     error: "Name must be unique"
-  //   })
-  // }
-
   const person = new Person({
     name: body.name,
     number: body.number,
     id: id
   })
 
-  // data = data.concat(person)
-
-  person.save().then(result =>
+  await person.save().then(result =>
   {
-    console.log("Person saved successfully");
-    mongoose.connection.close()
+    console.log("Person saved successfully", result);
   })
 
-  // res.json(person)
+  res.status(200).end()
 })
 
 const unknownEndpoint = (req, res) =>
