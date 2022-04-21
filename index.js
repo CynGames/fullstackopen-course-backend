@@ -1,12 +1,14 @@
 require("dotenv").config()
 
 const express = require("express")
-const cors = require("cors")
+const app = express()
 
 const mongoose = require("mongoose")
+const Person = require("./models/person")
+
+const cors = require("cors")
 const morgan = require("morgan")
 
-const app = express()
 app.use(express.json())
 app.use(express.static("build"))
 app.use(cors())
@@ -22,26 +24,6 @@ morgan.token("post", (req) =>
 morgan.format("postFormat", ":method :url :status :res[content-length] - :response-time ms :post")
 
 app.use(morgan("postFormat"))
-
-const url = process.env.MONGODB_URI
-
-mongoose.connect(url)
-  .then(result =>
-  {
-    console.log("Connected to MongoDB");
-  })
-  .catch((err) =>
-  {
-    console.log("Error connecting to MongoDB: ", err.message)
-  })
-
-const personSchema = new mongoose.Schema({
-  id: String,
-  name: String,
-  number: Number
-})
-
-const Person = new mongoose.model("Person", personSchema)
 
 app.get("/api/persons", async (req, res) =>
 {
