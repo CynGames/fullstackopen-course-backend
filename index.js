@@ -61,11 +61,11 @@ app.get("/api/persons/:id", (req, res) =>
   })
 })
 
-app.delete("/api/persons/:id", (req, res) =>
+app.delete("/api/persons/:id", async (req, res) =>
 {
   const id = Number(req.params.id)
 
-  Person.deleteOne({ id: id })
+  await Person.deleteOne({ id: id })
 
   res.status(204).end()
 })
