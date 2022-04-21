@@ -43,19 +43,19 @@ const personSchema = new mongoose.Schema({
 
 const Person = new mongoose.model("Person", personSchema)
 
-app.get("/api/persons", (req, res) =>
+app.get("/api/persons", async (req, res) =>
 {
-  Person.find({}).then(person =>
+  await Person.find({}).then(person =>
   {
     res.json(person)
   })
 })
 
-app.get("/api/persons/:id", (req, res) =>
+app.get("/api/persons/:id", async (req, res) =>
 {
   const id = Number(req.params.id)
 
-  Person.find({ id: id }).then(person =>
+  await Person.find({ id: id }).then(person =>
   {
     res.json(person)
   })
