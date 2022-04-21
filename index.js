@@ -36,7 +36,12 @@ app.get("/api/persons/:id", async (req, res) =>
 {
   const id = req.params.id
 
-  await Person.find({ _id: id }).then(person =>
+  // await Person.find({ _id: id }).then(person =>
+  // {
+  //   res.json(person)
+  // })
+
+  await Person.findById(id).then(person =>
   {
     res.json(person)
   })
@@ -46,7 +51,8 @@ app.delete("/api/persons/:id", async (req, res) =>
 {
   const id = req.params.id
 
-  await Person.deleteOne({ _id: id })
+  // await Person.deleteOne({ _id: id })
+  await Person.findByIdAndDelete(id)
 
   res.status(204).end()
 })
