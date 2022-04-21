@@ -3,7 +3,6 @@ require("dotenv").config()
 const express = require("express")
 const app = express()
 
-const mongoose = require("mongoose")
 const Person = require("./models/person")
 
 const cors = require("cors")
@@ -35,9 +34,9 @@ app.get("/api/persons", async (req, res) =>
 
 app.get("/api/persons/:id", async (req, res) =>
 {
-  const id = Number(req.params.id)
+  const id = req.params.id
 
-  await Person.find({ id: id }).then(person =>
+  await Person.find({ _id: id }).then(person =>
   {
     res.json(person)
   })
@@ -45,9 +44,9 @@ app.get("/api/persons/:id", async (req, res) =>
 
 app.delete("/api/persons/:id", async (req, res) =>
 {
-  const id = Number(req.params.id)
+  const id = req.params.id
 
-  await Person.deleteOne({ id: id })
+  await Person.deleteOne({ _id: id })
 
   res.status(204).end()
 })
