@@ -8,8 +8,8 @@ const Person = require("./models/person")
 const cors = require("cors")
 const morgan = require("morgan")
 
-app.use(express.json())
 app.use(express.static("build"))
+app.use(express.json())
 app.use(cors())
 
 morgan.token("post", (req) =>
@@ -32,30 +32,48 @@ app.get("/api/persons", async (req, res) =>
   })
 })
 
-app.get("/api/persons/:id", async (req, res) =>
+app.get("/api/persons/:id", async (req, res, next) =>
 {
   const id = req.params.id
 
-  // await Person.find({ _id: id }).then(person =>
-  // {
-  //   res.json(person)
-  // })
-
-  await Person.findById(id).then(person =>
-  {
-    res.json(person)
-  })
+  await Person.findById(id)
+    .then(person =>
+    {
+      if (person) res.json(person)
+      else res.status(404).end()
+    })
+    .catch(err => next(err))
 })
 
 app.delete("/api/persons/:id", async (req, res) =>
 {
   const id = req.params.id
 
-  // await Person.deleteOne({ _id: id })
   await Person.findByIdAndDelete(id)
+    .then(result => res.status(204).end())
+    .catch(err => next(err))
 
-  res.status(204).end()
 })
+
+app.put("/api/persons/:id", async (req, res) =>
+{
+  const id = req.params.id
+  const body = req.body
+
+  const person = {
+    id: body.id,
+    name: body.name,
+    number: body.number
+  }
+
+  await Person.findByIdAndUpdate(id, person, { new: true })
+    .then(updatedPerson =>
+    {
+      res.json(updatedPerson)
+    })
+    .catch(err => next(err))
+})
+
 
 app.get("/info", async (req, res) =>
 {
@@ -93,12 +111,27 @@ app.post("/api/persons", async (req, res) =>
   res.status(200).end()
 })
 
+
 const unknownEndpoint = (req, res) =>
 {
   res.status(404).send({ error: 'Unknown Endpoint' })
 }
 
 app.use(unknownEndpoint)
+
+const errorHandler = (err, req, res, next) =>
+{
+  console.log(err.message);
+
+  if (err.name === "CastError")
+  {
+    return res.status(400).send({ error: "Malformatted ID" })
+  }
+
+  next(err)
+}
+
+app.use(errorHandler)
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => console.log(`Server Running on PORT: ${PORT}`))
