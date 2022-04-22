@@ -45,7 +45,7 @@ app.get("/api/persons/:id", async (req, res, next) =>
     .catch(err => next(err))
 })
 
-app.delete("/api/persons/:id", async (req, res) =>
+app.delete("/api/persons/:id", async (req, res, next) =>
 {
   const id = req.params.id
 
@@ -55,7 +55,7 @@ app.delete("/api/persons/:id", async (req, res) =>
 
 })
 
-app.put("/api/persons/:id", async (req, res) =>
+app.put("/api/persons/:id", async (req, res, next) =>
 {
   const { id, name, number } = req.body
   const person = { id, name, number }
@@ -77,7 +77,7 @@ app.get("/info", async (req, res) =>
   res.send(`Phonebook has info for ${peopleAmount} people <br><br> ${date}`)
 })
 
-app.post("/api/persons", async (req, res) =>
+app.post("/api/persons", async (req, res, next) =>
 {
   const sID = await Person.countDocuments({}).exec();
   const id = Number(sID) + 1;
