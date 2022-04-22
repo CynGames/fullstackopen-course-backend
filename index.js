@@ -79,9 +79,6 @@ app.get("/info", async (req, res) =>
 
 app.post("/api/persons", async (req, res, next) =>
 {
-  const sID = await Person.countDocuments({}).exec();
-  const id = Number(sID) + 1;
-
   const body = req.body
 
   if (!body.name || !body.number)
@@ -94,7 +91,6 @@ app.post("/api/persons", async (req, res, next) =>
   const person = new Person({
     name: body.name,
     number: body.number,
-    id: id
   })
 
   await person.save()
