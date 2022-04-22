@@ -3,12 +3,12 @@ const uniqueValidator = require("mongoose-unique-validator")
 
 const url = process.env.MONGODB_URI
 
-console.log("Connecting to", url);
+console.log("Connecting to", url)
 
 mongoose.connect(url)
   .then(result =>
   {
-    console.log("Connected to MongoDB");
+    console.log("Connected to MongoDB")
   })
   .catch((err) =>
   {
@@ -27,7 +27,7 @@ const personSchema = new mongoose.Schema({
     minlength: 8,
     validate: {
       validator: function(v) {
-        return /^\d{2,3}-\d{5,}$/.test(v);
+        return /^\d{2,3}-\d{5,}$/.test(v)
       },
       message: props => `${props.value} is not a valid phone number!`
     },
@@ -36,7 +36,7 @@ const personSchema = new mongoose.Schema({
   }
 })
 
-personSchema.plugin(uniqueValidator);
+personSchema.plugin(uniqueValidator)
 
 personSchema.set("toJSON", {
   transform: (document, returnedObject) =>

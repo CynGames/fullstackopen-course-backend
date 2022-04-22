@@ -2,7 +2,7 @@ const mongoose = require("mongoose")
 
 if (process.argv.length < 3)
 {
-  console.log("node mongo.js password");
+  console.log("node mongo.js password")
   process.exit(1)
 }
 
@@ -23,19 +23,17 @@ if (process.argv.length === 3)
 {
   Person.find({}).then(result =>
   {
-    console.log("Phonebook entries: ");
+    console.log("Phonebook entries: ")
 
     result.forEach(person =>
     {
-      console.log(`${person.name} ${person.number}`);
-    });
+      console.log(`${person.name} ${person.number}`)
+    })
 
     mongoose.connection.close()
   })
-}
-else 
+} else
 {
-
   const person = new Person({
     id: 10,
     name: process.argv[3],
@@ -44,7 +42,7 @@ else
 
   person.save().then(result =>
   {
-    console.log("Person saved successfully");
+    console.log("Person saved successfully")
     mongoose.connection.close()
   })
 }

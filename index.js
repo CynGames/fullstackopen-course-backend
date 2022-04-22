@@ -71,8 +71,8 @@ app.put("/api/persons/:id", async (req, res, next) =>
 
 app.get("/info", async (req, res) =>
 {
-  const date = new Date();
-  const peopleAmount = await Person.countDocuments({}).exec();
+  const date = new Date()
+  const peopleAmount = await Person.countDocuments({}).exec()
 
   res.send(`Phonebook has info for ${peopleAmount} people <br><br> ${date}`)
 })
@@ -96,7 +96,7 @@ app.post("/api/persons", async (req, res, next) =>
   await person.save()
     .then(result =>
     {
-      console.log("Person saved successfully", result);
+      console.log("Person saved successfully", result)
     })
     .catch(err => next(err))
 
@@ -106,15 +106,13 @@ app.post("/api/persons", async (req, res, next) =>
 
 const unknownEndpoint = (req, res) =>
 {
-  res.status(404).send({ error: 'Unknown Endpoint' })
+  res.status(404).send({ error: "Unknown Endpoint" })
 }
 
 app.use(unknownEndpoint)
 
 const errorHandler = (err, req, res, next) =>
 {
-  console.log(err.message);
-
   if (err.name === "CastError")
   {
     return res.status(400).send({ error: "Malformatted ID" })
