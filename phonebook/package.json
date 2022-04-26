@@ -1,0 +1,35 @@
+{
+  "name": "fullstackopen-course-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "lint": "eslint .",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "git add . && git commit -m svbuild && git push heroku master"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CynGames/fullstackopen-course-backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CynGames/fullstackopen-course-backend/issues"
+  },
+  "homepage": "https://github.com/CynGames/fullstackopen-course-backend#readme",
+  "devDependencies": {
+    "eslint": "^8.13.0",
+    "nodemon": "^2.0.15"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "mongoose": "^6.3.0",
+    "mongoose-unique-validator": "^3.0.0",
+    "morgan": "^1.10.0"
+  }
+}
